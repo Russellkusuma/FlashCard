@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import GameKit
 
 class Flashcard {
     var question : String
@@ -19,6 +20,8 @@ class Flashcard {
         self.options = options
         
         self.correctAnswer = options[0]
+        
+        self.options = shuffle(list: options)
     }
 }
 
@@ -38,18 +41,27 @@ class CardCollection {
     //to access the current flashcard type CardCollection.instance.currentCard//
     private init() {
         
-        cards = [ Flashcard(question: "test Question", options: ["True","False"]),Flashcard(question: "trump is the president of 2017", options: ["True","False"]),Flashcard(question: "im am 16 years old on july 4th 2017", options: ["True","False"])]
+        cards = [ Flashcard(question: "Where am I?", options: ["Stanford","Home"]),Flashcard(question: "trump is the president of 2017", options: ["True","False"]),Flashcard(question: "im am 16 years old on july 4th 2017", options: ["True","False"]),Flashcard(question: "What school do I go to currently", options: ["Jakarta International School","Stanford University", "Public American school"])]
         
         currentIndex = 0;
+        
+        cards = shuffle(list: cards)
+
     }
     func nextQuestion() {
         currentIndex += 1
         if(currentIndex >= cards.count){
             currentIndex = 0
+            cards = shuffle(list:cards)
         }
+        currentCard.options = shuffle( list: currentCard.options)
     }
     
     public func checkAnswer(_ selectedAnswer :Int) -> Bool {
         return currentCard.options[selectedAnswer] == currentCard.correctAnswer
     }
+    
+}
+func shuffle<T>( list : [T]) -> [T] {
+    return GKRandomSource.sharedRandom().arrayByShufflingObjects(in: list) as! [T]
 }

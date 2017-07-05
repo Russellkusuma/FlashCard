@@ -33,6 +33,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         questionTextView.text = CardCollection.instance.currentCard.question
         
         questionLabel.text = "Question \(CardCollection.instance.currentIndex + 1)/\(CardCollection.instance.cards.count)"
+        
+        answerPickerView.reloadAllComponents()
     }
     
     // Pickerview Data Source//
@@ -61,6 +63,7 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
             alert = UIAlertController(title: "Correct", message: "Correct Answer!", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Yay!", style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true)
+            CardCollection.instance.nextQuestion()
         }else{
             // answer incorrect
             // expand to check finished code.
@@ -68,6 +71,10 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         alert.addAction(UIAlertAction(title: "Aww.", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true)
         }
+        
+        
+        
+        setupCardUI()
     }
     
 
